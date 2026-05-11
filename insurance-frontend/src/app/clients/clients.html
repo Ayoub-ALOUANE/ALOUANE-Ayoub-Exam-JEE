@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-info text-white">Liste des Clients</div>
+    <div class="card-body">
+      <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+      <table class="table table-striped" *ngIf="clients.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of clients">
+            <td>{{c.id}}</td>
+            <td>{{c.nom}}</td>
+            <td>{{c.email}}</td>
+            <td>
+              <button class="btn btn-primary btn-sm me-2" [routerLink]="['/client-contracts', c.id]">Voir Contrats</button>
+              <button class="btn btn-success btn-sm" [routerLink]="['/subscribe-contract', c.id]">Nouveau Contrat</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="clients.length === 0 && !errorMessage" class="alert alert-warning">Aucun client trouvé.</div>
+    </div>
+  </div>
+</div>

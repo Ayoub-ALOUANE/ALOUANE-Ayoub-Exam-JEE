@@ -1,0 +1,12 @@
+GEMINI.md
+**/GEMINI.md
+target/
+.idea/
+.vscode/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.DS_Store
+.gemini/

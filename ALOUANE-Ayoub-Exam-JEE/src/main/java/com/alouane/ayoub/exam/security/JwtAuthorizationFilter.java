@@ -21,6 +21,16 @@ import java.util.List;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+        
+        if (request.getServletPath().equals("/login") || request.getServletPath().contains("/swagger-ui") || request.getServletPath().contains("/v3/api-docs")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authorizationToken = request.getHeader(JwtUtils.AUTH_HEADER);
         if (authorizationToken != null && authorizationToken.startsWith(JwtUtils.PREFIX)) {
             try {
