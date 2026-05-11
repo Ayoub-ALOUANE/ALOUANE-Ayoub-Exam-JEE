@@ -1,7 +1,12 @@
 package com.alouane.ayoub.exam;
 
-import com.alouane.ayoub.exam.entities.*;
-import com.alouane.ayoub.exam.enums.*;
+import com.alouane.ayoub.exam.dtos.*;
+import com.alouane.ayoub.exam.entities.AppRole;
+import com.alouane.ayoub.exam.entities.AppUser;
+import com.alouane.ayoub.exam.enums.ContractStatus;
+import com.alouane.ayoub.exam.enums.CoverageLevel;
+import com.alouane.ayoub.exam.enums.HousingType;
+import com.alouane.ayoub.exam.enums.PaymentType;
 import com.alouane.ayoub.exam.services.AccountService;
 import com.alouane.ayoub.exam.services.InsuranceService;
 import org.springframework.boot.CommandLineRunner;
@@ -40,64 +45,46 @@ public class AlouaneAyoubExamJeeApplication {
 			accountService.addRoleToUser("admin", "USER");
 			accountService.addRoleToUser("admin", "ADMIN");
 
-			// Insurance Data
-			Client c1 = insuranceService.saveClient(Client.builder().nom("Ahmed Alami").email("ahmed@gmail.com").build());
-			Client c2 = insuranceService.saveClient(Client.builder().nom("Sara Benani").email("sara@gmail.com").build());
+			// Insurance Data using DTOs
+			ClientDTO c1 = insuranceService.saveClient(new ClientDTO(null, "Ahmed Alami", "ahmed@gmail.com"));
+			ClientDTO c2 = insuranceService.saveClient(new ClientDTO(null, "Sara Benani", "sara@gmail.com"));
 
 			// Automobile Contract
-			AutomobileContract auto = new AutomobileContract();
-			auto.setClient(c1);
-			auto.setDateSouscription(LocalDate.now());
-			auto.setStatut(ContractStatus.VALIDE);
+			AutomobileContractDTO auto = new AutomobileContractDTO();
 			auto.setMontantCotisation(1200.0);
 			auto.setDuree(12);
 			auto.setTauxCouverture(0.8);
 			auto.setMatricule("1234-A-1");
 			auto.setMarque("Dacia");
 			auto.setModele("Sandero");
-			insuranceService.saveContract(auto);
+			auto = (AutomobileContractDTO) insuranceService.saveContract(auto, c1.getId());
+			insuranceService.changeContractStatus(auto.getId(), ContractStatus.VALIDE);
 
 			// Habitation Contract
-			HabitationContract hab = new HabitationContract();
-			hab.setClient(c1);
-			hab.setDateSouscription(LocalDate.now());
-			hab.setStatut(ContractStatus.EN_COURS);
+			HabitationContractDTO hab = new HabitationContractDTO();
 			hab.setMontantCotisation(2500.0);
 			hab.setDuree(24);
 			hab.setTauxCouverture(0.9);
 			hab.setTypeLogement(HousingType.APPARTEMENT);
 			hab.setAdresse("Casablanca, Maarif");
 			hab.setSuperficie(85.0);
-			insuranceService.saveContract(hab);
+			insuranceService.saveContract(hab, c1.getId());
 
 			// Health Contract
-			HealthContract health = new HealthContract();
-			health.setClient(c2);
-			health.setDateSouscription(LocalDate.now());
-			health.setStatut(ContractStatus.VALIDE);
+			HealthContractDTO health = new HealthContractDTO();
 			health.setMontantCotisation(800.0);
 			health.setDuree(12);
 			health.setTauxCouverture(1.0);
 			health.setNiveauCouverture(CoverageLevel.PREMIUM);
 			health.setNombrePersonnes(4);
-			insuranceService.saveContract(health);
+			health = (HealthContractDTO) insuranceService.saveContract(health, c2.getId());
+			insuranceService.changeContractStatus(health.getId(), ContractStatus.VALIDE);
 
 			// Payments
-			insuranceService.savePayment(Payment.builder()
-					.date(LocalDate.now())
-					.montant(1200.0)
-					.type(PaymentType.PAIEMENT_ANNUEL)
-					.contract(auto)
-					.build());
+			insuranceService.addPaymentToContract(auto.getId(), new PaymentDTO(null, null, 1200.0, PaymentType.PAIEMENT_ANNUEL));
+			insuranceService.addPaymentToContract(health.getId(), new PaymentDTO(null, null, 800.0, PaymentType.MENSUALITE));
 
-			insuranceService.savePayment(Payment.builder()
-					.date(LocalDate.now())
-					.montant(800.0)
-					.type(PaymentType.MENSUALITE)
-					.contract(health)
-					.build());
-
-			System.out.println("Database successfully seeded with test data.");
+			System.out.println("Database successfully seeded with DTO-based test data.");
 		};
 	}
 

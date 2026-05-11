@@ -1,8 +1,10 @@
 com\alouane\ayoub\exam\entities\HabitationContract.class
 com\alouane\ayoub\exam\enums\PaymentType.class
+com\alouane\ayoub\exam\dtos\AutomobileContractDTO.class
 com\alouane\ayoub\exam\enums\ContractStatus.class
 com\alouane\ayoub\exam\entities\HealthContract.class
 com\alouane\ayoub\exam\web\ClientRestController.class
+com\alouane\ayoub\exam\dtos\ContractDTO.class
 com\alouane\ayoub\exam\services\AccountServiceImpl.class
 com\alouane\ayoub\exam\web\SecurityRestController.class
 com\alouane\ayoub\exam\enums\HousingType.class
@@ -10,6 +12,8 @@ com\alouane\ayoub\exam\entities\Client$ClientBuilder.class
 com\alouane\ayoub\exam\entities\Contract.class
 com\alouane\ayoub\exam\security\JwtAuthorizationFilter.class
 com\alouane\ayoub\exam\repositories\PaymentRepository.class
+com\alouane\ayoub\exam\dtos\HealthContractDTO.class
+com\alouane\ayoub\exam\dtos\PaymentDTO.class
 com\alouane\ayoub\exam\repositories\AppRoleRepository.class
 com\alouane\ayoub\exam\entities\AutomobileContract.class
 com\alouane\ayoub\exam\security\JwtUtils.class
@@ -17,6 +21,7 @@ com\alouane\ayoub\exam\services\InsuranceService.class
 com\alouane\ayoub\exam\entities\AppUser.class
 com\alouane\ayoub\exam\web\ContractRestController.class
 com\alouane\ayoub\exam\repositories\ContractRepository.class
+com\alouane\ayoub\exam\mappers\InsuranceMapper.class
 com\alouane\ayoub\exam\services\InsuranceServiceImpl.class
 com\alouane\ayoub\exam\repositories\ClientRepository.class
 com\alouane\ayoub\exam\entities\Client.class
@@ -24,6 +29,8 @@ com\alouane\ayoub\exam\repositories\AppUserRepository.class
 com\alouane\ayoub\exam\entities\AppRole.class
 com\alouane\ayoub\exam\entities\AppUser$AppUserBuilder.class
 com\alouane\ayoub\exam\AlouaneAyoubExamJeeApplication.class
+com\alouane\ayoub\exam\dtos\ClientDTO.class
+com\alouane\ayoub\exam\dtos\HabitationContractDTO.class
 com\alouane\ayoub\exam\entities\Payment.class
 com\alouane\ayoub\exam\enums\CoverageLevel.class
 com\alouane\ayoub\exam\services\AccountService.class

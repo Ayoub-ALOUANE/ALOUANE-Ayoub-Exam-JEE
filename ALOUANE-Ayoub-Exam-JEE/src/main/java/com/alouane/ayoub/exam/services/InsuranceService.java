@@ -1,20 +1,26 @@
 package com.alouane.ayoub.exam.services;
 
-import com.alouane.ayoub.exam.entities.Client;
-import com.alouane.ayoub.exam.entities.Contract;
-import com.alouane.ayoub.exam.entities.Payment;
+import com.alouane.ayoub.exam.dtos.*;
+import com.alouane.ayoub.exam.enums.ContractStatus;
 
 import java.util.List;
 
 public interface InsuranceService {
-    Client saveClient(Client client);
-    List<Client> getAllClients();
-    Client getClientById(Long id);
-    
-    Contract saveContract(Contract contract);
-    List<Contract> getAllContracts();
-    Contract getContractById(Long id);
-    
-    Payment savePayment(Payment payment);
-    List<Payment> getPaymentsByContractId(Long contractId);
+    // Clients
+    ClientDTO saveClient(ClientDTO clientDTO);
+    List<ClientDTO> getAllClients();
+    ClientDTO getClientById(Long id);
+
+    // Contracts
+    ContractDTO saveContract(ContractDTO contractDTO, Long clientId);
+    List<ContractDTO> getAllContracts();
+    ContractDTO getContractById(Long id);
+    List<ContractDTO> getContractsByClientId(Long clientId);
+    void changeContractStatus(Long contractId, ContractStatus status);
+
+    // Payments
+    PaymentDTO addPaymentToContract(Long contractId, PaymentDTO paymentDTO);
+    List<PaymentDTO> getPaymentsByContractId(Long contractId);
+    Double calculateTotalPaymentsByContract(Long contractId);
 }
+

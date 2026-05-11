@@ -1,7 +1,8 @@
 package com.alouane.ayoub.exam.web;
 
-import com.alouane.ayoub.exam.entities.Contract;
-import com.alouane.ayoub.exam.entities.Payment;
+import com.alouane.ayoub.exam.dtos.ContractDTO;
+import com.alouane.ayoub.exam.dtos.PaymentDTO;
+import com.alouane.ayoub.exam.enums.ContractStatus;
 import com.alouane.ayoub.exam.services.InsuranceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,29 +17,37 @@ public class ContractRestController {
     private final InsuranceService insuranceService;
 
     @GetMapping
-    public List<Contract> getAllContracts() {
+    public List<ContractDTO> getAllContracts() {
         return insuranceService.getAllContracts();
     }
 
     @GetMapping("/{id}")
-    public Contract getContractById(@PathVariable Long id) {
+    public ContractDTO getContractById(@PathVariable Long id) {
         return insuranceService.getContractById(id);
     }
 
-    @PostMapping
-    public Contract saveContract(@RequestBody Contract contract) {
-        return insuranceService.saveContract(contract);
+    @PostMapping("/client/{clientId}")
+    public ContractDTO saveContract(@RequestBody ContractDTO contractDTO, @PathVariable Long clientId) {
+        return insuranceService.saveContract(contractDTO, clientId);
+    }
+
+    @PatchMapping("/{id}/status")
+    public void changeStatus(@PathVariable Long id, @RequestParam ContractStatus status) {
+        insuranceService.changeContractStatus(id, status);
     }
 
     @GetMapping("/{id}/payments")
-    public List<Payment> getPaymentsByContractId(@PathVariable Long id) {
+    public List<PaymentDTO> getPaymentsByContractId(@PathVariable Long id) {
         return insuranceService.getPaymentsByContractId(id);
     }
 
     @PostMapping("/{id}/payments")
-    public Payment savePayment(@PathVariable Long id, @RequestBody Payment payment) {
-        Contract contract = insuranceService.getContractById(id);
-        payment.setContract(contract);
-        return insuranceService.savePayment(payment);
+    public PaymentDTO addPayment(@PathVariable Long id, @RequestBody PaymentDTO paymentDTO) {
+        return insuranceService.addPaymentToContract(id, paymentDTO);
+    }
+
+    @GetMapping("/{id}/payments/total")
+    public Double getTotalPayments(@PathVariable Long id) {
+        return insuranceService.calculateTotalPaymentsByContract(id);
     }
 }
